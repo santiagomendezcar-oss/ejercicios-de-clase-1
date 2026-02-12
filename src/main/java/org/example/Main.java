@@ -1,32 +1,74 @@
+package org.example;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        Producto a1 = new Producto("Caja", "cafe", "1.000");
-        Producto a2 = new Producto("Lapiz", "rojo", "2.000");
-        Producto a3 = new Producto("Camisa", "blanco", "20.000");
+        Scanner scanner = new Scanner(System.in);
+        Pedido pedido = null;
 
+        int opcion;
 
-        Pedido p1 = new Pedido("4455", "1", "23.000");
-        Pedido p2 = new Pedido("4456", "2", "2.000");
+        do {
+            System.out.println("\n1. Crear pedido");
+            System.out.println("2. Agregar producto");
+            System.out.println("3. Mostrar pedido");
+            System.out.println("4. Salir");
+            System.out.print("Opción: ");
 
+            opcion = scanner.nextInt();
+            scanner.nextLine();
 
-        p1.inscribir(a1);
-        p1.inscribir(a2);
-        p1.inscribir(a3);
-        p2.inscribir(a2);
+            switch (opcion) {
 
+                case 1:
+                    System.out.print("Código del pedido: ");
+                    String codigo = scanner.nextLine();
 
-        List<Pedido> pedidos = new ArrayList<>();
-        pedidos.add(p1);
-        pedidos.add(p2);
+                    pedido = new Pedido(codigo);
+                    System.out.println("Pedido creado.");
+                    break;
 
-        pedidos.forEach(pedido -> {
-            System.out.println(pedido);
-            pedido.getProductos().forEach(producto -> System.out.println(producto));
-            System.out.println();
-        });
+                case 2:
+                    if (pedido == null) {
+                        System.out.println("Primero cree un pedido.");
+                        break;
+                    }
+
+                    System.out.print("Código del producto: ");
+                    String codProd = scanner.nextLine();
+
+                    System.out.print("Nombre del producto: ");
+                    String nombreProd = scanner.nextLine();
+
+                    Producto producto = new Producto(codProd, nombreProd);
+                    pedido.agregarProducto(producto);
+
+                    System.out.println("Producto agregado.");
+                    break;
+
+                case 3:
+                    if (pedido == null) {
+                        System.out.println("No hay pedido creado.");
+                    } else {
+                        System.out.println(pedido);
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Programa finalizado.");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+            }
+
+        } while (opcion != 4);
+
+        scanner.close();
     }
 }
